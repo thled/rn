@@ -6,9 +6,9 @@
 
 rn is a command line tool to rename files and directories.
 
-Its behavior is comparable with that of `mv path/to/old_name path/to/new_name`.
+Its behavior is comparable with that of `mv path/to/old_name path/to/new_name`.  
 You can already write this quiet elegant like this `mv path/to/{old_name,new_name}`.
-But this tool has a more intuitive syntax and is arguably more semantic.
+But rn has a more intuitive syntax and is arguably more semantic.
 
 ## Requirements
 
@@ -25,11 +25,35 @@ But this tool has a more intuitive syntax and is arguably more semantic.
 
 ### Build binary
 
-1. Clone this repository: `$ git clone git@github.com:thled/rn.git`
-1. Change to project directory: `$ cd rn`
-1. Build and start the docker containers: `$ docker-compose up -d`
-1. Build the app: `$ docker-compose exec app cargo build --release`
-1. Copy binary: `$ cp app/target/release/rn TARGET`
+1. Clone this repository:
+
+    ```shell
+    git clone git@github.com:thled/rn.git
+    ```
+
+1. Change to project directory:
+
+    ```shell
+    cd rn
+    ```
+
+1. Build and start the docker containers:
+
+    ```shell
+    docker-compose up -d
+    ```
+
+1. Build the app:
+
+    ```shell
+    docker-compose exec app cargo build --release
+    ```
+
+1. Copy binary:
+
+    ```shell
+    cp app/target/release/rn TARGET
+    ```
 
 ## Usage
 
@@ -51,17 +75,47 @@ But this tool has a more intuitive syntax and is arguably more semantic.
 
 ## Developing
 
+### Enter container (required for following commands)
+
+```shell
+docker-compose exec app sh
+```
+
+### Build
+
+```shell
+cargo build
+```
+
+### Run
+
+```shell
+./target/debug/rn foo bar
+```
+
+### Format
+
+```shell
+cargo fmt
+```
+
 ### Linting
 
-`$ cargo clippy`
+```shell
+cargo clippy
+```
 
 ### Testing
 
-`$ cargo test`
+```shell
+cargo test
+```
 
-#### Watcher
+### Watcher
 
-`$ cargo watch -cx test -i tests/data`
+```shell
+cargo watch -cx test -i tests/data
+```
 
 ## Contribute
 
@@ -72,7 +126,7 @@ Please do contribute! Issues and pull requests are welcome.
 [license-badge]: https://img.shields.io/badge/license-MIT-blue.svg
 [license]: ./LICENSE
 [rust-badge]: https://img.shields.io/badge/Rust-1.53-blue.svg
-[rust]: https://blog.rust-lang.org/2020/11/19/Rust-1.53.html
+[rust]: https://blog.rust-lang.org/2021/06/17/Rust-1.53.0.html
 [docker]: https://docs.docker.com/install
 [docker-compose]: https://docs.docker.com/compose/install
 [releases]: https://github.com/thled/rn/releases

@@ -5,3 +5,4 @@ authors = ["Thomas Le Duc <dev@tleduc.de>"]
 edition = "2018"
 
 [dependencies]
+serial_test = "0.5.1"
