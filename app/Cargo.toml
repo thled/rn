@@ -1,0 +1,7 @@
+[package]
+name = "rn"
+version = "0.1.0"
+authors = ["Thomas Le Duc <dev@tleduc.de>"]
+edition = "2018"
+
+[dependencies]
