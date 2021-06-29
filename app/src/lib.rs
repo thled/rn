@@ -5,6 +5,6 @@ pub use config::Config;
 mod config;
 
 pub fn run(_config: Config) -> Result<(), Box<dyn Error>> {
-    File::create("tests/data/rename/bar_file")?;
+    File::create(format!("tests/data/rename/{}", _config.new_name))?;
     Ok(())
 }
