@@ -1,5 +1,5 @@
 pub struct Config {
-    pub old_name: String,
+    pub source: String,
     pub new_name: String,
 }
 
@@ -10,7 +10,7 @@ impl Config {
         }
 
         Ok(Config {
-            old_name: args[1].clone(),
+            source: args[1].clone(),
             new_name: args[2].clone(),
         })
     }

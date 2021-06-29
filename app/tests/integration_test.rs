@@ -13,8 +13,8 @@ use rn::{self, Config};
 fn rename_file() -> Result<(), Box<dyn Error>> {
     setup()?;
     let source = format!("{}/{}", base_dir(), "foo_file");
-    let new_name = "bar_file";
     File::create(&source)?;
+    let new_name = "bar_file";
 
     let config = create_config(&source, &new_name)?;
     rn::run(config)?;
@@ -26,11 +26,11 @@ fn rename_file() -> Result<(), Box<dyn Error>> {
 
 #[test]
 #[serial]
-fn rename_to_another_name() -> Result<(), Box<dyn Error>> {
+fn different_file_name() -> Result<(), Box<dyn Error>> {
     setup()?;
     let source = format!("{}/{}", base_dir(), "foo_file");
-    let new_name = "baz_file";
     File::create(&source)?;
+    let new_name = "baz_file";
 
     let config = create_config(&source, &new_name)?;
     rn::run(config)?;
@@ -44,11 +44,11 @@ fn rename_to_another_name() -> Result<(), Box<dyn Error>> {
 #[serial]
 fn different_path() -> Result<(), Box<dyn Error>> {
     setup()?;
-    let diff_dir = format!("{}/{}", base_dir(), "different");
-    let source = format!("{}/{}", diff_dir, "foo_file");
-    let new_name = "bar_file";
-    fs::create_dir_all(diff_dir)?;
+    let different_dir = format!("{}/{}", base_dir(), "different");
+    fs::create_dir_all(&different_dir)?;
+    let source = format!("{}/{}", different_dir, "foo_file");
     File::create(&source)?;
+    let new_name = "bar_file";
 
     let config = create_config(&source, &new_name)?;
     rn::run(config)?;
