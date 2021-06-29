@@ -24,6 +24,22 @@ fn rename_file() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+#[test]
+#[serial]
+fn rename_to_another_name() -> Result<(), Box<dyn Error>> {
+    setup()?;
+    let source = format!("{}/{}", base_dir(), "foo_file");
+    let new_name = "baz_file";
+    File::create(&source)?;
+
+    let config = create_config(&source, &new_name)?;
+    rn::run(config)?;
+
+    let target = format!("{}/{}", base_dir(), new_name);
+    assert!(Path::new(&target).exists());
+    Ok(())
+}
+
 fn create_config(source: &str, new_name: &str) -> Result<Config, &'static str> {
     let args = vec!["/bin/rn".to_owned(), source.to_owned(), new_name.to_owned()];
     rn::Config::new(&args)
