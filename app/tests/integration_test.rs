@@ -40,6 +40,24 @@ fn rename_to_another_name() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+#[test]
+#[serial]
+fn different_path() -> Result<(), Box<dyn Error>> {
+    setup()?;
+    let diff_dir = format!("{}/{}", base_dir(), "different");
+    let source = format!("{}/{}", diff_dir, "foo_file");
+    let new_name = "bar_file";
+    fs::create_dir_all(diff_dir)?;
+    File::create(&source)?;
+
+    let config = create_config(&source, &new_name)?;
+    rn::run(config)?;
+
+    let target = format!("{}/different/{}", base_dir(), new_name);
+    assert!(Path::new(&target).exists());
+    Ok(())
+}
+
 fn create_config(source: &str, new_name: &str) -> Result<Config, &'static str> {
     let args = vec!["/bin/rn".to_owned(), source.to_owned(), new_name.to_owned()];
     rn::Config::new(&args)
