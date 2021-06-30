@@ -72,8 +72,8 @@ fn same_content() -> Result<(), Box<dyn Error>> {
     rn::run(config)?;
 
     let target = format!("{}/{}", base_dir(), new_name);
-    let contents = fs::read_to_string(&target).unwrap();
-    assert_eq!(contents, "content of file");
+    let content = fs::read_to_string(&target).unwrap();
+    assert_eq!(content, "content of file");
     Ok(())
 }
 
