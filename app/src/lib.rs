@@ -1,4 +1,4 @@
-use std::{error::Error, fs::File, path::Path};
+use std::{error::Error, fs::{self, File}, io::Write, path::Path};
 
 pub use config::Config;
 
@@ -9,6 +9,8 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
         .parent()
         .unwrap()
         .to_string_lossy();
-    File::create(format!("{}/{}", path, config.new_name))?;
+    let mut new_file = File::create(format!("{}/{}", path, config.new_name)).unwrap();
+    let content = fs::read(&config.source)?;
+    new_file.write_all(&content)?;
     Ok(())
 }
