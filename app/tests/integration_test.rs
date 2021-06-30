@@ -1,4 +1,5 @@
 use serial_test::serial;
+use std::io::Write;
 use std::{
     error::Error,
     fs::{self, File},
@@ -55,6 +56,24 @@ fn different_path() -> Result<(), Box<dyn Error>> {
 
     let target = format!("{}/different/{}", base_dir(), new_name);
     assert!(Path::new(&target).exists());
+    Ok(())
+}
+
+#[test]
+#[serial]
+fn same_content() -> Result<(), Box<dyn Error>> {
+    setup()?;
+    let source = format!("{}/{}", base_dir(), "foo_file");
+    let mut file = File::create(&source).unwrap();
+    file.write_all("content of file".as_bytes())?;
+    let new_name = "bar_file";
+
+    let config = create_config(&source, &new_name)?;
+    rn::run(config)?;
+
+    let target = format!("{}/{}", base_dir(), new_name);
+    let contents = fs::read_to_string(&target).unwrap();
+    assert_eq!(contents, "content of file");
     Ok(())
 }
 
