@@ -77,6 +77,21 @@ fn same_content() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+#[test]
+#[serial]
+fn remove_old_file() -> Result<(), Box<dyn Error>> {
+    setup()?;
+    let source = format!("{}/{}", base_dir(), "foo_file");
+    File::create(&source)?;
+    let new_name = "bar_file";
+
+    let config = create_config(&source, &new_name)?;
+    rn::run(config)?;
+
+    assert!(!Path::new(&source).exists());
+    Ok(())
+}
+
 fn create_config(source: &str, new_name: &str) -> Result<Config, &'static str> {
     let args = vec!["/bin/rn".to_owned(), source.to_owned(), new_name.to_owned()];
     rn::Config::new(&args)
