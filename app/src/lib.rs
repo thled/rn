@@ -19,5 +19,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let content = fs::read(&config.source)?;
     new_file.write_all(&content)?;
 
+    fs::remove_file(&config.source)?;
+
     Ok(())
 }
