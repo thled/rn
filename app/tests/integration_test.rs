@@ -11,7 +11,7 @@ use rn::{self, Config};
 
 #[test]
 #[serial]
-fn rename_file() -> Result<(), Box<dyn Error>> {
+fn create_new_file() -> Result<(), Box<dyn Error>> {
     setup()?;
     let source = format!("{}/{}", base_dir(), "foo_file");
     File::create(&source)?;
