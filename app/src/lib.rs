@@ -14,7 +14,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
         create_new_file(&source, &config.new_name)?;
         remove_old_file(&source)?;
     } else {
-        create_new_dir(&config.new_name)?;
+        create_new_dir(&source, &config.new_name)?;
         remove_old_dir(&source)?;
     }
     Ok(())
@@ -25,8 +25,15 @@ fn remove_old_dir(source: &Path) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn create_new_dir(new_name: &str) -> Result<(), Box<dyn Error>> {
-    fs::create_dir(new_name)?;
+fn create_new_dir(source: &Path, new_name: &str) -> Result<(), Box<dyn Error>> {
+    let mut target = PathBuf::new();
+    if has_path(source) {
+        let path = source.parent().unwrap();
+        target.push(path);
+    }
+    target.push(new_name);
+
+    fs::create_dir_all(&target)?;
     Ok(())
 }
 
