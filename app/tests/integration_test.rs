@@ -51,7 +51,7 @@ fn same_content() -> Result<(), Box<dyn Error>> {
     let config = create_config(&source, &new_name)?;
     rn::run(config)?;
 
-    let new_file_content = fs::read_to_string(&new_name).unwrap();
+    let new_file_content = fs::read_to_string(&new_name)?;
     assert_eq!(new_file_content, old_file_content);
     Ok(())
 }
@@ -89,13 +89,30 @@ fn relative_path() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+#[test]
+#[serial]
+fn absolute_path() -> Result<(), Box<dyn Error>> {
+    setup()?;
+    let cwd = env::current_dir()?;
+    let source = format!("{}/{}", cwd.to_string_lossy(), "old_name");
+    File::create(&source)?;
+    let new_name = "new_name";
+
+    let config = create_config(&source, &new_name)?;
+    rn::run(config)?;
+
+    let target = format!("{}/{}", cwd.to_string_lossy(), new_name);
+    assert!(Path::new(&target).exists());
+    Ok(())
+}
+
 fn create_config(source: &str, new_name: &str) -> Result<Config, &'static str> {
     let args = vec!["/bin/rn".to_owned(), source.to_owned(), new_name.to_owned()];
     rn::Config::new(&args)
 }
 
 fn change_dir_to_tests_data() -> Result<(), io::Error> {
-    let cwd = env::current_dir().unwrap();
+    let cwd = env::current_dir()?;
     if !cwd.ends_with("tests/data") {
         env::set_current_dir(format!("{}/tests/data", cwd.to_string_lossy()))?;
     }
