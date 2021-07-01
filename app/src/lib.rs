@@ -15,6 +15,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
         remove_old_file(&source)?;
     } else {
         create_new_dir(&config.new_name)?;
+        fs::remove_dir(&source)?;
     }
     Ok(())
 }
