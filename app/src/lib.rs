@@ -38,9 +38,7 @@ fn create_new_dir(source: &Path, new_name: &str) -> Result<(), Box<dyn Error>> {
 }
 
 fn create_new_file(source: &Path, new_name: &str) -> Result<(), Box<dyn Error>> {
-    let source = Path::new(source);
     let mut target = PathBuf::new();
-
     if has_path(source) {
         let path = source.parent().unwrap();
         target.push(path);
