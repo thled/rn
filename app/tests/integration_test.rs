@@ -153,6 +153,24 @@ fn dir_with_path() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+#[test]
+#[serial]
+fn dir_keeps_file() -> Result<(), Box<dyn Error>> {
+    setup()?;
+    let source = "old_dir_name";
+    fs::create_dir(source)?;
+    let content_file = "content_file";
+    File::create(format!("{}/{}", source, content_file))?;
+    let new_name = "new_dir_name";
+
+    let config = create_config(source, new_name)?;
+    rn::run(config)?;
+
+    let new_dir_content = format!("{}/{}", new_name, content_file);
+    assert!(Path::new(&new_dir_content).exists());
+    Ok(())
+}
+
 fn create_config(source: &str, new_name: &str) -> Result<Config, &'static str> {
     let args = vec!["/bin/rn".to_owned(), source.to_owned(), new_name.to_owned()];
     rn::Config::new(&args)
