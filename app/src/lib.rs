@@ -1,4 +1,8 @@
-use std::{error::Error, fs::{self, File}, io::{self, Write}, path::Path};
+use std::{
+    error::Error,
+    fs, io,
+    path::{Path, PathBuf},
+};
 
 pub use config::Config;
 
@@ -11,12 +15,22 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 }
 
 fn create_new_file(source: &str, new_name: &str) -> Result<(), Box<dyn Error>> {
-    // let path = Path::new(source).parent().unwrap().to_string_lossy();
-    // let mut target = File::create(format!("{}/{}", path, new_name)).unwrap();
-    let mut target = File::create(new_name).unwrap();
+    let source = Path::new(source);
+    let mut target = PathBuf::new();
+
+    if is_dir(source) {
+        let path = source.parent().unwrap();
+        target.push(path);
+    }
+    target.push(new_name);
+
     let content = fs::read(source)?;
-    target.write_all(&content)?;
+    fs::write(&target, &content)?;
     Ok(())
+}
+
+fn is_dir(source: &Path) -> bool {
+    source.components().count() > 1
 }
 
 fn remove_old_file(source: &str) -> io::Result<()> {
