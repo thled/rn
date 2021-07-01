@@ -18,7 +18,7 @@ fn create_new_file(source: &str, new_name: &str) -> Result<(), Box<dyn Error>> {
     let source = Path::new(source);
     let mut target = PathBuf::new();
 
-    if is_dir(source) {
+    if has_path(source) {
         let path = source.parent().unwrap();
         target.push(path);
     }
@@ -29,7 +29,7 @@ fn create_new_file(source: &str, new_name: &str) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn is_dir(source: &Path) -> bool {
+fn has_path(source: &Path) -> bool {
     source.components().count() > 1
 }
 

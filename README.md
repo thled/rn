@@ -68,9 +68,9 @@ But rn has a more intuitive syntax and is arguably more semantic.
 
 - `$ rn foo_file bar_file`
 - `$ rn path/to/foo_file bar_file`
+- `$ rn /absolute/path/to/foo_file bar_file`
 - `$ rn foo_dir bar_dir`
 - `$ rn path/to/foo_dir bar_dir`
-- `$ rn /absolute/path/to/foo_file bar_file`
 - `$ rn /absolute/path/to/foo_dir bar_dir`
 
 ## Developing
