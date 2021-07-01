@@ -106,6 +106,21 @@ fn absolute_path() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+#[test]
+#[serial]
+fn dir_with_new_name() -> Result<(), Box<dyn Error>> {
+    setup()?;
+    let source = "old_dir_name";
+    fs::create_dir(&source)?;
+    let new_name = "new_dir_name";
+
+    let config = create_config(&source, &new_name)?;
+    rn::run(config)?;
+
+    assert!(Path::new(&new_name).is_dir());
+    Ok(())
+}
+
 fn create_config(source: &str, new_name: &str) -> Result<Config, &'static str> {
     let args = vec!["/bin/rn".to_owned(), source.to_owned(), new_name.to_owned()];
     rn::Config::new(&args)
