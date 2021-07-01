@@ -57,21 +57,21 @@ But rn has a more intuitive syntax and is arguably more semantic.
 
 ## Usage
 
-`$ ./rn OLD_NAME NEW_NAME`
+`$ rn SOURCE NEW_NAME`
 
-- OLD\_NAME = the file/directory to rename (possibly with absolute or relative path)
+- SOURCE = the file/directory to rename (possibly with absolute/relative path)
 - NEW\_NAME = new name of the file/directory
 
-`$ ./rn --help` for further assistance.
+`$ rn --help` for further assistance.
 
 ### Examples
 
-- `$ ./rn foo_file bar_file`
-- `$ ./rn path/to/foo_file bar_file`
-- `$ ./rn foo_dir bar_dir`
-- `$ ./rn path/to/foo_dir bar_dir`
-- `$ ./rn /absolute/path/to/foo_file bar_file`
-- `$ ./rn /absolute/path/to/foo_dir bar_dir`
+- `$ rn foo_file bar_file`
+- `$ rn path/to/foo_file bar_file`
+- `$ rn foo_dir bar_dir`
+- `$ rn path/to/foo_dir bar_dir`
+- `$ rn /absolute/path/to/foo_file bar_file`
+- `$ rn /absolute/path/to/foo_dir bar_dir`
 
 ## Developing
 
@@ -90,7 +90,19 @@ cargo build
 ### Run
 
 ```shell
-./target/debug/rn foo bar
+cargo run foo bar
+```
+
+### Lint
+
+```shell
+cargo clippy
+```
+
+### Fix
+
+```shell
+cargo fix
 ```
 
 ### Format
@@ -99,19 +111,13 @@ cargo build
 cargo fmt
 ```
 
-### Linting
-
-```shell
-cargo clippy
-```
-
-### Testing
+### Test
 
 ```shell
 cargo test
 ```
 
-### Watcher
+### Watch
 
 ```shell
 cargo watch -cx test -i tests/data
