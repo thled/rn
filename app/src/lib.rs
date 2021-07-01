@@ -9,8 +9,13 @@ pub use config::Config;
 mod config;
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
-    create_new_file(&config.source, &config.new_name)?;
-    remove_old_file(&config.source)?;
+    let source = Path::new(&config.source);
+    if source.is_file() {
+        create_new_file(&config.source, &config.new_name)?;
+        remove_old_file(&config.source)?;
+    } else {
+        fs::create_dir_all(&config.new_name)?;
+    }
     Ok(())
 }
 
