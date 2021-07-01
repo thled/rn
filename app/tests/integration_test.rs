@@ -13,34 +13,50 @@ use rn::{self, Config};
 #[serial]
 fn file_with_new_name() -> Result<(), Box<dyn Error>> {
     setup()?;
-    let source =  "foo_file";
+    let source = "old_name";
     File::create(&source)?;
-    let new_name = "bar_file";
+    let new_name = "new_name";
 
     let config = create_config(&source, &new_name)?;
     rn::run(config)?;
 
-    let target = new_name;
-    assert!(Path::new(&target).exists());
+    assert!(Path::new(&new_name).exists());
     Ok(())
 }
-/*
+
 #[test]
 #[serial]
 fn different_file_name() -> Result<(), Box<dyn Error>> {
     setup()?;
-    let source = format!("{}/{}", base_dir(), "foo_file");
+    let source = "old_name";
     File::create(&source)?;
-    let new_name = "baz_file";
+    let new_name = "diff_new_name";
 
     let config = create_config(&source, &new_name)?;
     rn::run(config)?;
 
-    let target = format!("{}/{}", base_dir(), new_name);
-    assert!(Path::new(&target).exists());
+    assert!(Path::new(&new_name).exists());
     Ok(())
 }
 
+#[test]
+#[serial]
+fn same_content() -> Result<(), Box<dyn Error>> {
+    setup()?;
+    let source = "old_name";
+    let old_file_content = "content of file";
+    fs::write(&source, &old_file_content)?;
+    let new_name = "new_name";
+
+    let config = create_config(&source, &new_name)?;
+    rn::run(config)?;
+
+    let new_file_content = fs::read_to_string(&new_name).unwrap();
+    assert_eq!(new_file_content, old_file_content);
+    Ok(())
+}
+
+/*
 #[test]
 #[serial]
 fn different_path() -> Result<(), Box<dyn Error>> {
@@ -56,24 +72,6 @@ fn different_path() -> Result<(), Box<dyn Error>> {
 
     let target = format!("{}/different/{}", base_dir(), new_name);
     assert!(Path::new(&target).exists());
-    Ok(())
-}
-
-#[test]
-#[serial]
-fn same_content() -> Result<(), Box<dyn Error>> {
-    setup()?;
-    let source = format!("{}/{}", base_dir(), "foo_file");
-    let mut file = File::create(&source).unwrap();
-    file.write_all("content of file".as_bytes())?;
-    let new_name = "bar_file";
-
-    let config = create_config(&source, &new_name)?;
-    rn::run(config)?;
-
-    let target = format!("{}/{}", base_dir(), new_name);
-    let content = fs::read_to_string(&target).unwrap();
-    assert_eq!(content, "content of file");
     Ok(())
 }
 
