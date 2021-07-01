@@ -1,6 +1,5 @@
 use serial_test::serial;
 use std::env;
-use std::io::Write;
 use std::{
     error::Error,
     fs::{self, File},
@@ -12,20 +11,20 @@ use rn::{self, Config};
 
 #[test]
 #[serial]
-fn create_new_file() -> Result<(), Box<dyn Error>> {
+fn file_with_new_name() -> Result<(), Box<dyn Error>> {
     setup()?;
-    let source = format!("{}/{}", base_dir(), "foo_file");
+    let source =  "foo_file";
     File::create(&source)?;
     let new_name = "bar_file";
 
     let config = create_config(&source, &new_name)?;
     rn::run(config)?;
 
-    let target = format!("{}/{}", base_dir(), new_name);
+    let target = new_name;
     assert!(Path::new(&target).exists());
     Ok(())
 }
-
+/*
 #[test]
 #[serial]
 fn different_file_name() -> Result<(), Box<dyn Error>> {
@@ -108,6 +107,7 @@ fn no_path() -> Result<(), Box<dyn Error>> {
     assert!(Path::new(&target).exists());
     Ok(())
 }
+*/
 
 fn create_config(source: &str, new_name: &str) -> Result<Config, &'static str> {
     let args = vec!["/bin/rn".to_owned(), source.to_owned(), new_name.to_owned()];
@@ -124,12 +124,13 @@ fn change_dir_to_tests_data() -> Result<(), io::Error> {
 
 fn setup() -> Result<(), io::Error> {
     change_dir_to_tests_data()?;
-    if Path::new(&base_dir()).exists() {
-        fs::remove_dir_all(base_dir())?;
-    }
-    fs::create_dir_all(&base_dir())
+    remove_dir_contents(".")?;
+    Ok(())
 }
 
-fn base_dir() -> String {
-    String::from("rename")
+fn remove_dir_contents<P: AsRef<Path>>(path: P) -> io::Result<()> {
+    for entry in fs::read_dir(path)? {
+        fs::remove_file(entry?.path())?;
+    }
+    Ok(())
 }
