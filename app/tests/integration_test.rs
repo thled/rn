@@ -71,41 +71,23 @@ fn remove_old_file() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-/*
 #[test]
 #[serial]
-fn different_path() -> Result<(), Box<dyn Error>> {
+fn relative_path() -> Result<(), Box<dyn Error>> {
     setup()?;
-    let different_dir = format!("{}/{}", base_dir(), "different");
-    fs::create_dir_all(&different_dir)?;
-    let source = format!("{}/{}", different_dir, "foo_file");
+    let dir = "dir";
+    fs::create_dir_all(&dir)?;
+    let source = format!("{}/{}", dir, "old_name");
     File::create(&source)?;
-    let new_name = "bar_file";
+    let new_name = "new_name";
 
     let config = create_config(&source, &new_name)?;
     rn::run(config)?;
 
-    let target = format!("{}/different/{}", base_dir(), new_name);
+    let target = format!("{}/{}", dir, new_name);
     assert!(Path::new(&target).exists());
     Ok(())
 }
-
-#[test]
-#[serial]
-fn no_path() -> Result<(), Box<dyn Error>> {
-    setup()?;
-    let source = format!("{}/{}", base_dir(), "foo_file");
-    File::create(&source)?;
-    let new_name = "bar_file";
-
-    let config = create_config(&source, &new_name)?;
-    rn::run(config)?;
-
-    let target = format!("{}/{}", base_dir(), new_name);
-    assert!(Path::new(&target).exists());
-    Ok(())
-}
-*/
 
 fn create_config(source: &str, new_name: &str) -> Result<Config, &'static str> {
     let args = vec!["/bin/rn".to_owned(), source.to_owned(), new_name.to_owned()];
@@ -128,7 +110,12 @@ fn setup() -> Result<(), io::Error> {
 
 fn remove_dir_contents<P: AsRef<Path>>(path: P) -> io::Result<()> {
     for entry in fs::read_dir(path)? {
-        fs::remove_file(entry?.path())?;
+        let entry = entry?.path();
+        if entry.is_file() {
+            fs::remove_file(entry)?;
+        } else {
+            fs::remove_dir_all(entry)?;
+        }
     }
     Ok(())
 }
