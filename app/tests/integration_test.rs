@@ -56,6 +56,21 @@ fn same_content() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+#[test]
+#[serial]
+fn remove_old_file() -> Result<(), Box<dyn Error>> {
+    setup()?;
+    let source = "old_name";
+    File::create(&source)?;
+    let new_name = "new_name";
+
+    let config = create_config(&source, &new_name)?;
+    rn::run(config)?;
+
+    assert!(!Path::new(&source).exists());
+    Ok(())
+}
+
 /*
 #[test]
 #[serial]
@@ -72,21 +87,6 @@ fn different_path() -> Result<(), Box<dyn Error>> {
 
     let target = format!("{}/different/{}", base_dir(), new_name);
     assert!(Path::new(&target).exists());
-    Ok(())
-}
-
-#[test]
-#[serial]
-fn remove_old_file() -> Result<(), Box<dyn Error>> {
-    setup()?;
-    let source = format!("{}/{}", base_dir(), "foo_file");
-    File::create(&source)?;
-    let new_name = "bar_file";
-
-    let config = create_config(&source, &new_name)?;
-    rn::run(config)?;
-
-    assert!(!Path::new(&source).exists());
     Ok(())
 }
 

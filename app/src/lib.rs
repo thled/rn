@@ -1,9 +1,4 @@
-use std::{
-    error::Error,
-    fs::{self, File},
-    io::Write,
-    path::Path,
-};
+use std::{error::Error, fs::{self, File}, io::{self, Write}, path::Path};
 
 pub use config::Config;
 
@@ -11,8 +6,7 @@ mod config;
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     create_new_file(&config.source, &config.new_name)?;
-    // remove_old_file(&config.source)?;
-
+    remove_old_file(&config.source)?;
     Ok(())
 }
 
@@ -25,7 +19,6 @@ fn create_new_file(source: &str, new_name: &str) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn remove_old_file(source: &str) -> Result<(), Box<dyn Error>> {
-    fs::remove_file(source)?;
-    Ok(())
+fn remove_old_file(source: &str) -> io::Result<()> {
+    fs::remove_file(source)
 }
