@@ -11,15 +11,20 @@ mod config;
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let source = Path::new(&config.source);
     if source.is_file() {
-        create_new_file(&config.source, &config.new_name)?;
-        remove_old_file(&config.source)?;
+        create_new_file(&source, &config.new_name)?;
+        remove_old_file(&source)?;
     } else {
-        fs::create_dir_all(&config.new_name)?;
+        create_new_dir(&config.new_name)?;
     }
     Ok(())
 }
 
-fn create_new_file(source: &str, new_name: &str) -> Result<(), Box<dyn Error>> {
+fn create_new_dir(new_name: &str) -> Result<(), Box<dyn Error>> {
+    fs::create_dir(new_name)?;
+    Ok(())
+}
+
+fn create_new_file(source: &Path, new_name: &str) -> Result<(), Box<dyn Error>> {
     let source = Path::new(source);
     let mut target = PathBuf::new();
 
@@ -38,6 +43,6 @@ fn has_path(source: &Path) -> bool {
     source.components().count() > 1
 }
 
-fn remove_old_file(source: &str) -> io::Result<()> {
+fn remove_old_file(source: &Path) -> io::Result<()> {
     fs::remove_file(source)
 }
