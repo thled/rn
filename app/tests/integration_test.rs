@@ -179,7 +179,9 @@ fn create_config(source: &str, new_name: &str) -> Result<Config, &'static str> {
 fn change_dir_to_tests_data() -> Result<(), io::Error> {
     let cwd = env::current_dir()?;
     if !cwd.ends_with("tests/data") {
-        env::set_current_dir(format!("{}/tests/data", cwd.to_string_lossy()))?;
+        let cd_target = format!("{}/tests/data", cwd.to_string_lossy());
+        fs::create_dir_all(&cd_target)?;
+        env::set_current_dir(&cd_target)?;
     }
     Ok(())
 }
