@@ -10,9 +10,9 @@ Project home page: https://github.com/thled/rn
 
 
 USAGE:
-    rn OLD_NAME NEW_NAME
+    rn SOURCE NEW_NAME
 
-OLD_NAME:
+SOURCE:
     - The file/directory to rename.
     - Can contain an absolute or relative path.
 
@@ -20,12 +20,12 @@ NEW_NAME:
     The new name of the file/directory.
 
 EXAMPLES:
-    ./rn foo_file bar_file
-    ./rn path/to/foo_file bar_file
-    ./rn foo_dir bar_dir
-    ./rn path/to/foo_dir bar_dir
-    ./rn /absolute/path/to/foo_file bar_file
-    ./rn /absolute/path/to/foo_dir bar_dir
+    rn old_name new_name
+    rn path/to/old_name new_name
+    rn /absolute/path/to/old_name new_name
+    rn old_dir_name new_dir_name
+    rn path/to/old_dir_name new_dir_name
+    rn /absolute/path/to/old_dir_name new_dir_name
 ";
 
 fn main() {
