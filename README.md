@@ -10,12 +10,12 @@ Its behavior is comparable with that of `mv path/to/old_name path/to/new_name`.
 You can already write this quiet elegant like this `mv path/to/{old_name,new_name}`.
 But rn has a more intuitive syntax and is arguably more semantic.
 
-## Requirements
+## Table of contents
 
-### Development
-
-- [Docker][docker]
-- [Docker-Compose][docker-compose]
+- [Installation](#installation)
+- [Usage](#usage)
+- [Development](#development)
+- [Contribute](#contribute)
 
 ## Installation
 
@@ -73,7 +73,12 @@ But rn has a more intuitive syntax and is arguably more semantic.
 - `$ rn path/to/foo_dir bar_dir`
 - `$ rn /absolute/path/to/foo_dir bar_dir`
 
-## Developing
+## Development
+
+### Requirements
+
+- [Docker][docker]
+- [Docker-Compose][docker-compose]
 
 ### Enter container (required for following commands)
 
