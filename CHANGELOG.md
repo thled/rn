@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- First Package Manager (AUR) installation possibility.
+
 ### Changed
 
 - Minor change to command help text.

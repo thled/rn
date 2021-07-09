@@ -19,9 +19,21 @@ But rn has a more intuitive syntax and is arguably more semantic.
 
 ## Installation
 
+There are different possible ways to install rn.
+You can choose one of the following.
+
 ### Download binary
 
 [Archives of precompiled binaries for rn are available.][releases]
+
+### Package Manager
+
+If you're an **Arch Linux** user and have an AUR helper like [paru][paru],
+then you can install rn from the AUR:
+
+```shell
+paru -S rn
+```
 
 ### Build binary
 
@@ -141,3 +153,4 @@ Please do contribute! Issues and pull requests are welcome.
 [docker]: https://docs.docker.com/install
 [docker-compose]: https://docs.docker.com/compose/install
 [releases]: https://github.com/thled/rn/releases
+[paru]: https://github.com/Morganamilo/paru
